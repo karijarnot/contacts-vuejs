@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
+import router from './router';
 import store from './store';
 import {ClientTable, Event} from 'vue-tables-2';
 
@@ -11,5 +12,6 @@ Vue.use(ClientTable, {}, false, 'bootstrap4', 'default');
 
 new Vue({
   render: h => h(App),
+  router,
   store,
 }).$mount('#app');
