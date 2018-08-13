@@ -1,27 +1,33 @@
 <template>
-  <div id="app" class="container-fluid">
+   <b-container fluid id="app">
   <header>
+  <b-navbar toggleable="md" type="dark" variant="info">
+  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+  	<b-navbar-brand href="#">Contacts</b-navbar-brand>
+  	<b-collapse is-nav id="nav_collapse">
+  	<b-navbar-nav>
+    <b-nav-item>
   	<router-link class="nav-link" :to="{name: 'Contacts'}" exact>
   		Home
   	</router-link>
+  		</b-nav-item>
+  		<b-nav-item>
   	<router-link class="nav-link" :to="{name: 'Vue-Tables-2'}" exact>
   		Vue-Tables-2
   	</router-link>
+  		</b-nav-item>
+  		</b-navbar-nav>
+  		</b-collapse>
+  	</b-navbar>
   </header>
   <main>
   	<router-view />
   </main>
-  </div>
+  </b-container>
+
 </template>
 
 <script>
-
-import { mapActions } from 'vuex';
-import AddContactModal from './components/AddContactModal.vue';
-import SearchContactsModal from './components/SearchContactsModal.vue';
-import UpdateContactModal from './components/UpdateContactModal.vue';
-import ContactsTable from './components/ContactsTable.vue';
-import toastr from 'toastr';
 
 export default {
   name: 'app'
@@ -29,5 +35,8 @@ export default {
 </script>
 
 <style>
+.container-fluid {
+	padding: 0;
+}
 
 </style>

@@ -1,6 +1,5 @@
 <template>
 <div>
-    <h1>{{ msg }}</h1>
     <table class="table table-striped">
     	<thead>
     		<tr>
@@ -24,35 +23,39 @@
      	</tbody>
      </table>
      <div class="text-center">
-		<button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#addModal">Add Contact</button>
+		<button type="button" class="btn btn-primary m-1" @click="openAdd">Add Contact</button>
 		<button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#searchModal">Search Contacts</button>
 		<button type="button" class="btn btn-primary m-1" @click="clearSearch()">Display All Contacts</button>
 	</div>
-	<AddContactModal />
 	<SearchContactsModal />
-	<UpdateContactModal />
+	<b-modal ref="addModal" title="Add Contact" :hide-footer="hideFooter">
+		<ContactForm v-on:close="closeAddModal" :update="false" />
+	</b-modal>	
+	<b-modal ref="updateModal" title="Update Contact" :hide-footer="hideFooter">
+		<ContactForm v-on:close="closeUpdateModal" :update="true" />
+	</b-modal>
 </div>
 </template>
 
 <script>
 
 import { mapActions } from 'vuex';
-import AddContactModal from './AddContactModal.vue';
 import SearchContactsModal from './SearchContactsModal.vue';
-import UpdateContactModal from './UpdateContactModal.vue';
+import ContactForm from './ContactForm.vue';
 import toastr from 'toastr';
 
 export default {
   name: 'contactsManager',
   data () {
     return {
-      msg: 'Contacts'
+      msg: 'Contacts',
+      //showUpdateModal: false,
+      hideFooter: true
     }
   },
   components: {
-	  AddContactModal,
-	  SearchContactsModal,
-	  UpdateContactModal
+	  ContactForm,
+	  SearchContactsModal
   },
   computed: {
 	  contactEntities() {
@@ -68,9 +71,19 @@ export default {
 	  clearSearch: function() {
 		  this.$store.dispatch('getContactEntities');
 	  },
+	  openAdd: function() {
+		  this.$store.commit('updateSelectedContact', {});
+		  this.$refs.addModal.show();
+	  },
 	  selectContactForUpdate: function(contactEntity) {
 		  this.$store.commit('updateSelectedContact', Object.assign({}, contactEntity));
-		  $("#updateModal").modal('show');
+		  this.$refs.updateModal.show();
+	  },
+	  closeUpdateModal: function() {
+		  this.$refs.updateModal.hide();
+	  },
+	  closeAddModal: function() {
+		  this.$refs.addModal.hide();
 	  }
   },
   created: function () {
